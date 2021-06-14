@@ -1,11 +1,14 @@
 package ar.com.frupp.cashapi.resources;
 
 import ar.com.frupp.cashapi.models.UserModel;
+import ar.com.frupp.cashapi.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,6 +27,9 @@ public class UserResourceTest {
     @Autowired
     private MockMvc mvc;
 
+    @MockBean
+    private UserService userService;
+
     @Value("classpath:tests/resources/user/get_user_by_id_response.json")
     private Resource resourceFile;
 
@@ -33,6 +39,7 @@ public class UserResourceTest {
         int userId = expected.getId();
         String path = String.format("/users/%d", userId);
 
+        Mockito.when(userService.findById(userId)).thenReturn(expected);
 
         MvcResult result = mvc.perform(
                 get(path).contentType(MediaType.APPLICATION_JSON)
