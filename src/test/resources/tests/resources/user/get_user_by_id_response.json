@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "email": "test@app.com.ar",
+  "firstName": "Pepe",
+  "lastName": "Argento",
+  "loans": [
+    {
+      "id": 1,
+      "total": 2500.00,
+      "userId": 1
+    }
+  ]
+}
