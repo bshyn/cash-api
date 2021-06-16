@@ -6,7 +6,7 @@ import java.util.Collection;
 @Entity
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     private String email;
 
@@ -17,11 +17,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Collection<Loan> loans;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -20,16 +20,21 @@ public class UserMapper {
 
     public static User toEntity(UserModel model) {
         User user = new User();
-        user.setId(model.getId());
+
+        if (model.getId() != null) {
+            user.setId(model.getId());
+        }
+
         user.setEmail(model.getEmail());
         user.setFirstName(model.getFirstName());
         user.setLastName(model.getLastName());
 
-        Collection<Loan> loans = model.getLoans().stream()
-                .map((loanModel) -> LoanMapper.toEntity(loanModel, user))
-                .collect(Collectors.toList());
-        user.setLoans(loans);
-
+        if (model.getLoans() != null) {
+            Collection<Loan> loans = model.getLoans().stream()
+                    .map((loanModel) -> LoanMapper.toEntity(loanModel, user))
+                    .collect(Collectors.toList());
+            user.setLoans(loans);
+        }
         return user;
     }
 }
