@@ -10,12 +10,17 @@ import java.util.stream.Collectors;
 
 public class UserMapper {
     public static UserModel toModel(User entity) {
-        Collection<LoanModel> loans = entity.getLoans().stream()
-                .map(LoanMapper::toModel).collect(Collectors.toList());
+        Collection<LoanModel> loans;
+        if (entity.getLoans() != null) {
+            loans = entity.getLoans().stream()
+                    .map(LoanMapper::toModel).collect(Collectors.toList());
+        } else {
+            loans = null;
+        }
 
         return new UserModel(
-                entity.getId(), entity.getEmail(), entity.getFirstName(),
-                entity.getLastName(), loans);
+                entity.getId() != null ? entity.getId() : null, entity.getEmail(),
+                entity.getFirstName(), entity.getLastName(), loans);
     }
 
     public static User toEntity(UserModel model) {
