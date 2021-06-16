@@ -31,4 +31,10 @@ public class UserServiceImpl implements UserService {
             UserMapper.toEntity(model)
         );
     }
+
+    @Override
+    public void deleteUserById(int id) {
+        this.findById(id);
+        this.repository.deleteById(id);
+    }
 }

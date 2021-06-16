@@ -7,4 +7,6 @@ public interface UserService {
     User findById(int userId);
 
     User createUser(UserModel model);
+
+    void deleteUserById(int id);
 }
