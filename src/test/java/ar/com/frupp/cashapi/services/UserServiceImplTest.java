@@ -23,12 +23,14 @@ class UserServiceImplTest {
     private UserRepository repository;
     private UserService service;
     private User user;
+    private int userId;
 
     @BeforeEach
     void setUp() {
+        this.repository = Mockito.mock(UserRepository.class);
         this.service = new UserServiceImpl(this.repository);
 
-        int userId = 1;
+        this.userId = 1;
 
         Loan loan = new Loan();
         this.user = new User();
@@ -38,7 +40,7 @@ class UserServiceImplTest {
 
         loan.setTotal(2500.00);
         loan.setId(1);
-        this.user.setId(userId);
+        this.user.setId(this.userId);
         this.user.setEmail("user@test.com");
         this.user.setFirstName("Pepe");
         this.user.setLastName("Argento");
@@ -46,9 +48,11 @@ class UserServiceImplTest {
 
     @Test
     void shouldFindUser() {
-        Mockito.when(repository.findById(this.user.getId())).thenReturn(Optional.of(this.user));
+        int userId = this.user.getId();
 
-        User found = this.service.findById(this.user.getId());
+        Mockito.when(this.repository.findById(userId)).thenReturn(Optional.ofNullable(this.user));
+
+        User found = this.service.findById(userId);
 
         assertThat(found)
                 .usingRecursiveComparison()
@@ -58,7 +62,7 @@ class UserServiceImplTest {
 
     @Test
     void shouldThrowExceptionWhenNotFound() {
-        Mockito.when(repository.findById(this.user.getId())).thenReturn(Optional.empty());
+        Mockito.when(repository.findById(this.userId)).thenReturn(Optional.empty());
 
         assertThrows(
                 NotFoundException.class,
