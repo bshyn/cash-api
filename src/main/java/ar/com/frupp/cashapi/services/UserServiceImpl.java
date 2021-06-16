@@ -1,29 +1,25 @@
 package ar.com.frupp.cashapi.services;
 
-import ar.com.frupp.cashapi.entities.Loan;
 import ar.com.frupp.cashapi.entities.User;
+import ar.com.frupp.cashapi.exceptions.NotFoundException;
+import ar.com.frupp.cashapi.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private UserRepository repository;
+
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public User findById(int userId) {
-        Loan loan = new Loan();
-        User user = new User();
+        Optional<User> opt = this.repository.findById(userId);
 
-        loan.setUser(user);
-        user.setLoans(Collections.singleton(loan));
-
-        loan.setTotal(2500.00);
-        loan.setId(1);
-        user.setId(userId);
-        user.setEmail("user@test.com");
-        user.setFirstName("Pepe");
-        user.setLastName("Argento");
-
-        return user;
+        return opt.orElseThrow(NotFoundException::new);
     }
 }
