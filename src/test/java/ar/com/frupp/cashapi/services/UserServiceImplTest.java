@@ -83,6 +83,7 @@ class UserServiceImplTest {
     @Test
     void shouldDeleteUser() {
         int id = 5;
+        Mockito.when(this.repository.findById(id)).thenReturn(Optional.of(this.user));
         this.service.deleteUserById(id);
 
         verify(this.repository, times(1)).deleteById(id);
