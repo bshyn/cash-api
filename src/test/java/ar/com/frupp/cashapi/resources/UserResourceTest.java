@@ -2,6 +2,7 @@ package ar.com.frupp.cashapi.resources;
 
 import ar.com.frupp.cashapi.models.UserModel;
 import ar.com.frupp.cashapi.services.UserService;
+import ar.com.frupp.cashapi.utils.UserMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -39,7 +40,7 @@ public class UserResourceTest {
         int userId = expected.getId();
         String path = String.format("/users/%d", userId);
 
-        Mockito.when(userService.findById(userId)).thenReturn(expected);
+        Mockito.when(userService.findById(userId)).thenReturn(UserMapper.toEntity(expected));
 
         MvcResult result = mvc.perform(
                 get(path).contentType(MediaType.APPLICATION_JSON)

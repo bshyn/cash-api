@@ -1,11 +1,11 @@
 package ar.com.frupp.cashapi.models;
 
 public class LoanModel {
-    private String id;
+    private int id;
     private double total;
     private int userId;
 
-    public LoanModel(String id, double total, int userId) {
+    public LoanModel(int id, double total, int userId) {
         this.id = id;
         this.total = total;
         this.userId = userId;
@@ -14,11 +14,11 @@ public class LoanModel {
     public LoanModel() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

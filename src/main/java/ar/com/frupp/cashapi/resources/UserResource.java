@@ -1,7 +1,9 @@
 package ar.com.frupp.cashapi.resources;
 
+import ar.com.frupp.cashapi.entities.User;
 import ar.com.frupp.cashapi.models.UserModel;
 import ar.com.frupp.cashapi.services.UserService;
+import ar.com.frupp.cashapi.utils.UserMapper;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +19,7 @@ public class UserResource {
     @GetMapping("/{userId}")
     @ResponseBody
     public UserModel findUser(@PathVariable("userId") int userId) {
-        return this.userService.findById(userId);
+        User user = this.userService.findById(userId);
+        return UserMapper.toModel(user);
     }
 }
