@@ -79,4 +79,25 @@ class UserServiceImplTest {
 
         verify(this.repository, times(1)).save(Mockito.any(User.class));
     }
+
+    @Test
+    void shouldDeleteUser() {
+        int id = 5;
+        Mockito.when(this.repository.findById(id)).thenReturn(Optional.of(this.user));
+        this.service.deleteUserById(id);
+
+        verify(this.repository, times(1)).deleteById(id);
+    }
+
+    @Test
+    void shouldThrowNotFoundWhenUserNotExists() {
+        int id = 99;
+        Mockito.when(this.repository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(
+                NotFoundException.class,
+                () -> this.service.deleteUserById(id)
+        );
+    }
+
 }

@@ -20,8 +20,8 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserResource.class)
@@ -91,5 +91,20 @@ public class UserResourceTest {
 
         assertThat(result.getResponse().getContentAsString())
                 .isEqualTo(responseBody);
+    }
+
+    @Test
+    void shouldReturn200OnUserDeletion() throws Exception {
+        int userId = 3;
+        String path = String.format("%s/%d", BASE_PATH, userId);
+
+        doNothing().when(this.userService).deleteUserById(userId);
+
+        mvc.perform(
+                delete(path)
+        ).andExpect(
+                status().isOk()
+        );
+
     }
 }

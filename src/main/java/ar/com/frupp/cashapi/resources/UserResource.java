@@ -29,4 +29,10 @@ public class UserResource {
         User saved = this.userService.createUser(request);
         return UserMapper.toModel(saved);
     }
+
+    @DeleteMapping("/{userId}")
+    @ResponseBody
+    public void deleteUser(@PathVariable("userId") int userId) {
+        this.userService.deleteUserById(userId);
+    }
 }
