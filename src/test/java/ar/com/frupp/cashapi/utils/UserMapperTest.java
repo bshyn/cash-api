@@ -82,4 +82,22 @@ public class UserMapperTest {
 
         assertThat(converted.getLoans().size()).isEqualTo(this.entity.getLoans().size());
     }
+
+    @Test
+    void shouldConvertModelWithNoIdToEntity() {
+        this.model.setId(null);
+
+        User converted = UserMapper.toEntity(this.model);
+
+        assertThat(converted.getId()).isNull();
+    }
+
+    @Test
+    void shouldConvertModelWithNoLoansToEntity() {
+        this.model.setLoans(null);
+
+        User converted = UserMapper.toEntity(this.model);
+
+        assertThat(converted.getLoans()).isNull();
+    }
 }

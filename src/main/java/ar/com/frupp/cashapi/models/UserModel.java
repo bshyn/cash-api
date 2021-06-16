@@ -3,13 +3,13 @@ package ar.com.frupp.cashapi.models;
 import java.util.Collection;
 
 public class UserModel {
-    private int id;
+    private Integer id;
     private String email;
     private String firstName;
     private String lastName;
     private Collection<LoanModel> loans;
 
-    public UserModel(int id, String email, String firstName, String lastName, Collection<LoanModel> loans) {
+    public UserModel(Integer id, String email, String firstName, String lastName, Collection<LoanModel> loans) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -20,11 +20,11 @@ public class UserModel {
     public UserModel() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

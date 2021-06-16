@@ -1,5 +1,6 @@
 package ar.com.frupp.cashapi.resources;
 
+import ar.com.frupp.cashapi.entities.User;
 import ar.com.frupp.cashapi.models.UserModel;
 import ar.com.frupp.cashapi.services.UserService;
 import ar.com.frupp.cashapi.utils.UserMapper;
@@ -15,15 +16,19 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import java.util.Collections;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserResource.class)
 public class UserResourceTest {
 
     private final ObjectMapper mapper = new ObjectMapper();
+    private final String BASE_PATH = "/users";
 
     @Autowired
     private MockMvc mvc;
@@ -38,7 +43,7 @@ public class UserResourceTest {
     void shouldReturnUser() throws Exception {
         UserModel expected = mapper.readValue(resourceFile.getURL(), UserModel.class);
         int userId = expected.getId();
-        String path = String.format("/users/%d", userId);
+        String path = String.format("%s/%d", BASE_PATH, userId);
 
         Mockito.when(userService.findById(userId)).thenReturn(UserMapper.toEntity(expected));
 
@@ -54,5 +59,37 @@ public class UserResourceTest {
                 .usingRecursiveComparison()
                 .withStrictTypeChecking()
                 .isEqualTo(expected);
+    }
+
+    @Test
+    void shouldReturn200OnUserCreation() throws Exception {
+        UserModel request = new UserModel(
+                null, "email@email.com", "nombre",
+                "apellido", null
+        );
+
+        UserModel response = new UserModel(
+                555, request.getEmail(), request.getFirstName(),
+                request.getLastName(), Collections.emptyList()
+        );
+
+        User responseEntity = UserMapper.toEntity(response);
+
+        String requestBody = mapper.writeValueAsString(request);
+        String responseBody = mapper.writeValueAsString(response);
+
+        Mockito.when(userService.createUser(any(UserModel.class))).thenReturn(responseEntity);
+
+        MvcResult result = mvc.perform(
+                post(BASE_PATH)
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                status().isOk()
+        ).andReturn();
+
+        assertThat(result.getResponse().getContentAsString())
+                .isEqualTo(responseBody);
     }
 }

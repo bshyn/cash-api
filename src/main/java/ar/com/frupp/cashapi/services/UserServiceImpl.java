@@ -2,7 +2,9 @@ package ar.com.frupp.cashapi.services;
 
 import ar.com.frupp.cashapi.entities.User;
 import ar.com.frupp.cashapi.exceptions.NotFoundException;
+import ar.com.frupp.cashapi.models.UserModel;
 import ar.com.frupp.cashapi.repositories.UserRepository;
+import ar.com.frupp.cashapi.utils.UserMapper;
 import org.springframework.stereotype.Service;
 
 
@@ -21,5 +23,12 @@ public class UserServiceImpl implements UserService {
         Optional<User> opt = this.repository.findById(userId);
 
         return opt.orElseThrow(NotFoundException::new);
+    }
+
+    @Override
+    public User createUser(UserModel model) {
+        return this.repository.save(
+            UserMapper.toEntity(model)
+        );
     }
 }

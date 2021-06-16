@@ -22,4 +22,11 @@ public class UserResource {
         User user = this.userService.findById(userId);
         return UserMapper.toModel(user);
     }
+
+    @PostMapping
+    @ResponseBody
+    public UserModel createUser(@RequestBody UserModel request) {
+        User saved = this.userService.createUser(request);
+        return UserMapper.toModel(saved);
+    }
 }
