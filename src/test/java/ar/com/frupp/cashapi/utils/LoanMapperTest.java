@@ -5,11 +5,9 @@ import ar.com.frupp.cashapi.entities.User;
 import ar.com.frupp.cashapi.models.LoanModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 public class LoanMapperTest {
     private Loan entity;
     private LoanModel model;
