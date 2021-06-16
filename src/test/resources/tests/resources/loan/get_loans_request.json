@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "total": 2500.00,
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "total": 65120.75,
+      "userId": 1
+    }
+  ],
+  "paging": {
+    "page": 1,
+    "size": 50,
+    "total": 1500
+  }
+}
