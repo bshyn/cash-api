@@ -24,9 +24,10 @@ public class LoanResource {
 
     @GetMapping
     @ResponseBody
-    public GetLoansResponse getAllLoansPaginated(@RequestParam("page") Integer page,
-                                                 @RequestParam("size") Integer size,
-                                                 @RequestParam(name = "user_id") Integer userId) {
+    public GetLoansResponse getAllLoansPaginated(
+            @RequestParam("page") Integer page,
+            @RequestParam("size") Integer size,
+            @RequestParam(name = "user_id", required = false) Integer userId) {
         Page<Loan> pagedLoans = this.loanService.findLoansPaginated(userId, page, size);
 
         PaginationModel paging = new PaginationModel(

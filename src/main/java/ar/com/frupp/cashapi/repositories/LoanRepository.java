@@ -7,4 +7,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface LoanRepository extends PagingAndSortingRepository<Loan, Integer> {
     Page<Loan> findByUserId(int userId, Pageable pageable);
+    Page<Loan> findAll(Pageable pageable);
 }

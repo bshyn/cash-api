@@ -16,8 +16,10 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Page<Loan> findLoansPaginated(int userId, int page, int size) {
+    public Page<Loan> findLoansPaginated(Integer userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return this.repository.findByUserId(userId, pageable);
+
+        return userId == null ? this.repository.findAll(pageable) :
+                this.repository.findByUserId(userId, pageable);
     }
 }
