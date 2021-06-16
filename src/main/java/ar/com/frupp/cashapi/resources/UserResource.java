@@ -6,8 +6,6 @@ import ar.com.frupp.cashapi.services.UserService;
 import ar.com.frupp.cashapi.utils.UserMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-
 @RestController
 @RequestMapping("/users")
 public class UserResource {
@@ -28,9 +26,7 @@ public class UserResource {
     @PostMapping
     @ResponseBody
     public UserModel createUser(@RequestBody UserModel request) {
-        request.setLoans(Collections.emptyList());
-        request.setId(150);
-
-        return request;
+        User saved = this.userService.createUser(request);
+        return UserMapper.toModel(saved);
     }
 }
