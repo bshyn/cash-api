@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class Loan {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private double total;

@@ -5,7 +5,7 @@ import java.util.Collection;
 
 @Entity
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String email;
