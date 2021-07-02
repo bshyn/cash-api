@@ -1,5 +1,6 @@
 package ar.com.frupp.cashapi.logging;
 
+import ar.com.frupp.cashapi.models.ApiValidation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.JoinPoint;
@@ -10,6 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -27,6 +29,10 @@ public class HttpLogging {
 
     @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)")
     public void getMethods() {
+    }
+
+    @Pointcut("execution(* ar.com.frupp.cashapi.config.RestExceptionHandler.handle*(..))")
+    public void validations() {
     }
 
     @Before("postMethods() || getMethods()")
@@ -64,6 +70,29 @@ public class HttpLogging {
 
         logResponse(clazz, request.getMethod(), request.getRequestURI(), classMethod,
                 getPayload(joinPoint), responseAsStr);
+    }
+
+    @AfterReturning(value = "validations()", returning = "response")
+    public void logValidationResponse(JoinPoint joinPoint, ResponseEntity<ApiValidation> response) {
+        Class clazz = joinPoint.getTarget().getClass();
+
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) return;
+        HttpServletRequest request = attributes.getRequest();
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+
+        String responseAsStr;
+        try {
+            responseAsStr = mapper.writeValueAsString(response.getBody());
+        } catch (JsonProcessingException e) {
+            LoggerFactory.getLogger(HttpLogging.class).warn("Exception during response logging", e);
+            responseAsStr = "";
+        }
+
+        logResponse(clazz, request.getMethod(), request.getRequestURI(), "",
+                "", responseAsStr);
     }
 
     private String getClassMethod(JoinPoint joinPoint) {
