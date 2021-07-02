@@ -29,4 +29,12 @@ public class GetLoansResponse {
     public void setPaging(PaginationModel paging) {
         this.paging = paging;
     }
+
+    @Override
+    public String toString() {
+        return "GetLoansResponse{" +
+                "items=" + items +
+                ", paging=" + (paging != null ? paging.toString() : "null") +
+                '}';
+    }
 }
