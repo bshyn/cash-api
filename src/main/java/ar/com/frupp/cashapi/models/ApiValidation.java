@@ -1,6 +1,9 @@
 package ar.com.frupp.cashapi.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
@@ -43,5 +46,26 @@ public class ApiValidation {
 
     public Map<String, String> getValidations() {
         return validations;
+    }
+
+    @Override
+    public String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        String validationsStr;
+        try {
+            validationsStr = mapper.writeValueAsString(validations);
+        } catch (JsonProcessingException e) {
+            LoggerFactory.getLogger(ApiValidation.class).error("Error processing ApiValidation.toString()", e);
+            validationsStr = "null";
+        }
+
+
+        return "ApiValidation{" +
+                "status=" + status.toString() +
+                ", errorCode='" + errorCode + '\'' +
+                ", path='" + path + '\'' +
+                ", timestamp=" + timestamp.toString() +
+                ", validations=" + validationsStr +
+                '}';
     }
 }

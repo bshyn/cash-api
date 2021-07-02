@@ -37,4 +37,13 @@ public class PaginationModel {
     public void setTotal(Long total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return "PaginationModel{" +
+                "page=" + page +
+                ", size=" + size +
+                ", total=" + total +
+                '}';
+    }
 }

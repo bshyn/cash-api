@@ -59,4 +59,15 @@ public class UserModel {
     public void setLoans(Collection<LoanModel> loans) {
         this.loans = loans;
     }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", loans=" + (loans == null ? "null" : loans.toString()) +
+                '}';
+    }
 }
