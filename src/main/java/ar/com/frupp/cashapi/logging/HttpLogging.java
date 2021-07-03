@@ -106,7 +106,7 @@ public class HttpLogging {
             String parameterName = signature.getParameterNames()[i];
             builder.append(parameterName);
             builder.append(": ");
-            builder.append(joinPoint.getArgs()[i].toString());
+            builder.append(joinPoint.getArgs()[i] != null ? joinPoint.getArgs()[i].toString() : "null");
             builder.append(", ");
         }
         return builder.toString();
